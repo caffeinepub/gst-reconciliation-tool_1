@@ -1,11 +1,12 @@
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
-import { Calculator, FileCheck, History } from "lucide-react";
+import { Calculator, FileCheck, FileSpreadsheet, History } from "lucide-react";
 import { useState } from "react";
+import { BankConverterPage } from "./pages/BankConverterPage";
 import { ReconcilePage } from "./pages/ReconcilePage";
 import { SavedSessionsPage } from "./pages/SavedSessionsPage";
 
-type ActiveTab = "reconcile" | "sessions";
+type ActiveTab = "reconcile" | "sessions" | "bank";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>("reconcile");
@@ -70,6 +71,20 @@ export default function App() {
                 <History className="w-4 h-4" />
                 <span className="hidden sm:inline">Saved Sessions</span>
               </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("bank")}
+                data-ocid="nav.bank.tab"
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-150",
+                  activeTab === "bank"
+                    ? "bg-white/20 text-white"
+                    : "text-white/70 hover:text-white hover:bg-white/10",
+                )}
+              >
+                <FileSpreadsheet className="w-4 h-4" />
+                <span className="hidden sm:inline">Bank Converter</span>
+              </button>
             </nav>
           </div>
         </div>
@@ -77,7 +92,13 @@ export default function App() {
 
       {/* Main content */}
       <main className="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {activeTab === "reconcile" ? <ReconcilePage /> : <SavedSessionsPage />}
+        {activeTab === "reconcile" ? (
+          <ReconcilePage />
+        ) : activeTab === "sessions" ? (
+          <SavedSessionsPage />
+        ) : (
+          <BankConverterPage />
+        )}
       </main>
 
       {/* Footer */}
